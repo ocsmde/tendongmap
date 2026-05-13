@@ -272,7 +272,7 @@
     border-top: 1px dashed var(--border);
     font-family: 'Noto Serif KR', serif; line-height: 1.7;
   }
-  .d-actions { display: flex; gap: 8px; margin-top: 14px; flex-wrap: wrap; }
+  .d-actions { display: flex; gap: 8px; margin-top: 14px; }
   .d-del-btn {
     padding: 7px 14px; border: 1px solid rgba(192,57,43,0.3);
     border-radius: 3px; background: none; color: var(--red-pin);
@@ -280,13 +280,6 @@
     transition: all 0.15s;
   }
   .d-del-btn:hover { background: rgba(192,57,43,0.08); }
-  .d-edit-btn {
-    padding: 7px 14px; border: 1px solid rgba(184,92,26,0.3);
-    border-radius: 3px; background: none; color: var(--accent);
-    font-size: 12px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
-    transition: all 0.15s;
-  }
-  .d-edit-btn:hover { background: rgba(184,92,26,0.08); }
 
   /* ─── STATS ─── */
   .stat-section { margin-bottom: 20px; }
@@ -398,11 +391,12 @@
   <div class="login-box">
     <img src="IMG_2217.jpeg" alt="텐동여지도 로고" style="width:160px; margin-bottom:4px;">
     <div class="login-title">텐동여지도</div>
-    <div class="login-sub"웅텐챌(웅무랑텐동먹기챌린지)</div>
+    <div class="login-sub">우리 둘만의 전국 텐동 정복 기록</div>
     <input class="login-input" id="loginId" type="text" placeholder="아이디" autocomplete="off">
     <input class="login-input" id="loginPw" type="password" placeholder="비밀번호" autocomplete="off">
     <button class="login-btn" onclick="tryLogin()">입장하기</button>
     <div class="login-error" id="loginErr"></div>
+    <div class="login-hint">💡 기본 계정: tendong / 1234</div>
   </div>
 </div>
 
@@ -438,64 +432,77 @@
 
     <!-- MAP -->
     <div class="map-wrap" id="mapWrap">
-      <svg id="mapSvg" viewBox="0 0 960 1024" xmlns="http://www.w3.org/2000/svg" preserveAspectRatio="xMidYMid meet">
-        <!-- 배경 -->
-        <rect width="960" height="1024" fill="#E2D8CA"/>
-
-        <!-- 바다 표현 -->
+      <svg id="mapSvg" viewBox="0 0 500 660" xmlns="http://www.w3.org/2000/svg">
         <defs>
-          <radialGradient id="seaGrad" cx="50%" cy="50%">
-            <stop offset="0%" stop-color="#B8D4E8"/>
-            <stop offset="100%" stop-color="#9EC8E0"/>
+          <radialGradient id="seaG" cx="40%" cy="50%">
+            <stop offset="0%" stop-color="#C4D9E8"/>
+            <stop offset="100%" stop-color="#9CBCD4"/>
           </radialGradient>
         </defs>
-        <rect width="960" height="1024" fill="url(#seaGrad)" opacity="0.25"/>
+        <rect width="500" height="660" fill="url(#seaG)"/>
+        <!-- 독도 -->
+        <circle cx="456" cy="130" r="4" fill="#D4C8A8" stroke="#A89060" stroke-width="0.8"/>
+        <text x="456" y="142" text-anchor="middle" font-size="7" fill="rgba(80,60,30,0.55)" font-family="'Noto Sans KR',sans-serif">독도</text>
 
-        <!-- 한반도 정교화 -->
-        <path d="
-          M 380 120 L 420 110 L 450 105 L 490 100 L 530 102 L 560 108 L 590 118 L 620 132
-          L 640 152 L 655 175 L 665 200 L 670 230 L 672 260 L 668 290 L 665 320
-          L 710 180 L 720 210 L 725 240 L 728 270 L 730 300 L 728 330 L 722 360
-          L 712 385 L 700 405 L 685 422 L 678 440 L 675 460 L 672 480 L 670 505
-          L 668 530 L 665 555 L 660 575 L 655 590 L 650 600
-          
-          L 620 610 L 590 615 L 560 618 L 530 620 L 500 622 L 470 623 L 450 620
-          L 430 615 L 410 608 L 395 598 L 385 585 L 378 570 L 372 552
-          L 368 530 L 365 505 L 363 480 L 362 455 L 361 430 L 360 405
-          L 360 380 L 361 355 L 363 330 L 365 305 L 368 280 L 371 255
-          L 374 230 L 377 205 L 380 180 L 382 155 L 383 135 Z
-        " fill="#D4C8A8" stroke="#B8A880" stroke-width="2"/>
+        <!-- 경기도 (서울·인천을 감싸는 넓은 도) -->
+        <path d="M172,110 L182,102 L196,97 L212,95 L228,94 L244,97 L258,104 L268,114 L274,126 L272,140 L264,150 L272,160 L276,172 L272,184 L260,194 L244,200 L228,204 L212,202 L196,194 L182,182 L172,168 L166,152 L168,136Z" fill="#D6C99E" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 서울특별시 -->
+        <path d="M220,130 L232,124 L244,123 L256,128 L260,140 L256,152 L244,157 L232,155 L220,148Z" fill="#C2B080" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 인천광역시 (서해 방향) -->
+        <path d="M162,136 L174,130 L184,132 L190,144 L186,156 L176,162 L164,158 L158,146Z" fill="#CCBE90" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 강원특별자치도 -->
+        <path d="M272,122 L288,112 L306,106 L326,102 L348,102 L370,108 L390,118 L406,132 L414,150 L412,168 L402,184 L388,196 L370,204 L350,208 L330,204 L312,198 L296,196 L280,190 L272,178 L274,164 L264,152 L272,140Z" fill="#D2C69A" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 충청북도 -->
+        <path d="M244,200 L260,196 L276,194 L294,196 L312,200 L326,208 L332,220 L328,234 L318,246 L302,252 L284,250 L268,242 L254,230 L244,216Z" fill="#DAD09E" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 충청남도 -->
+        <path d="M164,160 L180,162 L196,166 L212,170 L226,178 L238,188 L244,200 L242,216 L234,228 L220,238 L202,242 L184,238 L166,228 L152,214 L148,198 L154,182Z" fill="#D8CE9A" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 세종특별자치시 -->
+        <path d="M248,230 L260,226 L270,230 L272,242 L262,250 L250,250 L242,244Z" fill="#E2D6A2" stroke="#7A5C30" stroke-width="0.9"/>
+        <!-- 대전광역시 -->
+        <path d="M242,244 L254,240 L266,244 L268,256 L258,264 L246,264 L238,256Z" fill="#CEBC8C" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 전라북도 -->
+        <path d="M150,216 L168,210 L186,210 L204,214 L220,220 L234,230 L238,244 L232,258 L220,268 L204,274 L186,274 L168,266 L152,252 L140,236Z" fill="#DACCA0" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 전라남도 -->
+        <path d="M140,252 L156,250 L174,256 L190,264 L206,272 L222,272 L236,266 L246,272 L244,288 L234,304 L218,318 L198,328 L176,332 L154,326 L134,312 L120,294 L120,274Z" fill="#D8CC9C" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 광주광역시 -->
+        <path d="M202,286 L214,280 L228,282 L234,294 L228,308 L214,312 L202,308 L196,296Z" fill="#C6B888" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 경상북도 -->
+        <path d="M312,200 L330,206 L350,208 L368,216 L384,228 L396,244 L400,262 L392,280 L378,294 L360,300 L340,298 L322,288 L308,274 L298,258 L296,240 L302,222Z" fill="#D4C898" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 대구광역시 -->
+        <path d="M322,264 L336,256 L352,258 L360,270 L354,286 L340,292 L324,286 L316,274Z" fill="#C6B886" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 경상남도 -->
+        <path d="M248,272 L268,264 L288,258 L308,256 L324,262 L340,272 L352,286 L352,304 L342,320 L324,332 L304,340 L282,342 L260,336 L242,322 L236,306 L238,288Z" fill="#DACE9E" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 울산광역시 -->
+        <path d="M368,296 L384,288 L400,294 L406,310 L398,326 L382,332 L366,326 L358,312Z" fill="#CEBC8E" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 부산광역시 -->
+        <path d="M342,322 L360,314 L378,316 L390,328 L390,344 L376,356 L358,360 L342,352 L334,338Z" fill="#C4B484" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 제주특별자치도 -->
+        <path d="M158,598 L178,590 L202,584 L228,581 L254,582 L278,588 L298,596 L308,610 L300,624 L278,632 L252,636 L224,634 L198,626 L176,614 L160,602Z" fill="#D4C8A4" stroke="#B0A070" stroke-width="1"/>
 
-        <!-- 제주도 -->
-        <ellipse cx="420" cy="900" rx="65" ry="40" fill="#D4C8A8" stroke="#B8A880" stroke-width="1.5"/>
-
-        <!-- 주요 도시 위치 표시 -->
-        <circle cx="500" cy="220" r="16" fill="rgba(255,255,255,0.25)" stroke="rgba(184,168,128,0.5)" stroke-width="1"/>
-        <text x="500" y="226" text-anchor="middle" font-size="12" fill="rgba(100,80,50,0.7)" font-family="'Noto Sans KR', sans-serif" font-weight="600">서울</text>
-
-        <circle cx="655" cy="470" r="15" fill="rgba(255,255,255,0.25)" stroke="rgba(184,168,128,0.5)" stroke-width="1"/>
-        <text x="655" y="476" text-anchor="middle" font-size="11" fill="rgba(100,80,50,0.7)" font-family="'Noto Sans KR', sans-serif" font-weight="600">부산</text>
-
-        <circle cx="620" cy="380" r="14" fill="rgba(255,255,255,0.25)" stroke="rgba(184,168,128,0.5)" stroke-width="1"/>
-        <text x="620" y="386" text-anchor="middle" font-size="11" fill="rgba(100,80,50,0.7)" font-family="'Noto Sans KR', sans-serif" font-weight="600">대구</text>
-
-        <circle cx="380" cy="460" r="14" fill="rgba(255,255,255,0.25)" stroke="rgba(184,168,128,0.5)" stroke-width="1"/>
-        <text x="380" y="466" text-anchor="middle" font-size="11" fill="rgba(100,80,50,0.7)" font-family="'Noto Sans KR', sans-serif" font-weight="600">광주</text>
-
-        <circle cx="460" cy="330" r="13" fill="rgba(255,255,255,0.25)" stroke="rgba(184,168,128,0.5)" stroke-width="1"/>
-        <text x="460" y="336" text-anchor="middle" font-size="11" fill="rgba(100,80,50,0.7)" font-family="'Noto Sans KR', sans-serif" font-weight="600">대전</text>
-
-        <circle cx="680" cy="180" r="13" fill="rgba(255,255,255,0.25)" stroke="rgba(184,168,128,0.5)" stroke-width="1"/>
-        <text x="680" y="186" text-anchor="middle" font-size="11" fill="rgba(100,80,50,0.7)" font-family="'Noto Sans KR', sans-serif" font-weight="600">강릉</text>
-
-        <circle cx="420" cy="900" r="12" fill="rgba(255,255,255,0.25)" stroke="rgba(184,168,128,0.5)" stroke-width="1"/>
-        <text x="420" y="906" text-anchor="middle" font-size="11" fill="rgba(100,80,50,0.7)" font-family="'Noto Sans KR', sans-serif" font-weight="600">제주</text>
+        <!-- 시도명 라벨 -->
+        <g font-family="'Noto Sans KR',sans-serif" fill="rgba(55,38,15,0.72)">
+          <text x="238" y="143" text-anchor="middle" font-size="7.5" font-weight="500">서울</text>
+          <text x="173" y="150" text-anchor="middle" font-size="7">인천</text>
+          <text x="220" y="173" text-anchor="middle" font-size="7.5">경기</text>
+          <text x="352" y="158" text-anchor="middle" font-size="7.5">강원</text>
+          <text x="298" y="228" text-anchor="middle" font-size="7.5">충북</text>
+          <text x="196" y="216" text-anchor="middle" font-size="7.5">충남</text>
+          <text x="256" y="242" text-anchor="middle" font-size="6.5">세종</text>
+          <text x="252" y="257" text-anchor="middle" font-size="6.5">대전</text>
+          <text x="190" y="248" text-anchor="middle" font-size="7.5">전북</text>
+          <text x="184" y="304" text-anchor="middle" font-size="7.5">전남</text>
+          <text x="214" y="298" text-anchor="middle" font-size="6.5">광주</text>
+          <text x="356" y="254" text-anchor="middle" font-size="7.5">경북</text>
+          <text x="338" y="277" text-anchor="middle" font-size="6.5">대구</text>
+          <text x="296" y="308" text-anchor="middle" font-size="7.5">경남</text>
+          <text x="384" y="314" text-anchor="middle" font-size="6.5">울산</text>
+          <text x="364" y="340" text-anchor="middle" font-size="6.5">부산</text>
+          <text x="234" y="608" text-anchor="middle" font-size="7.5">제주</text>
+        </g>
 
         <!-- 마커 레이어 -->
         <g id="markerLayer"></g>
-
-        <!-- 제목 워터마크 -->
-        <text x="900" y="40" text-anchor="end" font-size="12" fill="rgba(100,80,50,0.3)" font-family="'Noto Serif KR', serif" font-style="italic">텐동여지도</text>
+        <text x="486" y="18" text-anchor="end" font-size="8" fill="rgba(100,80,50,0.2)" font-family="'Noto Serif KR',serif" font-style="italic">텐동여지도</text>
       </svg>
 
       <!-- 지도 컨트롤 -->
@@ -537,11 +544,29 @@
       <div class="fg">
         <label class="fl">지역</label>
         <select class="fi" id="mRegion">
-          <option>인천💙</option><option>세종💛</option><option>대전</option><option>부산</option>
-          <option>광주</option>대<option>구</option><option>울산</option><option>서울</option>
-          <option>경기</option><option>강원</option><option>충북</option><option>충남</option>
-          <option>전북</option><option>전남</option><option>경북</option><option>경남</option>
-          <option>제주</option>
+          <optgroup label="특별/광역시">
+            <option>서울특별시</option>
+            <option>부산광역시</option>
+            <option>대구광역시</option>
+            <option>인천광역시</option>
+            <option>광주광역시</option>
+            <option>대전광역시</option>
+            <option>울산광역시</option>
+          </optgroup>
+          <optgroup label="특별자치시/도">
+            <option>세종특별자치시</option>
+            <option>제주특별자치도</option>
+          </optgroup>
+          <optgroup label="도">
+            <option>경기도</option>
+            <option>강원특별자치도</option>
+            <option>충청북도</option>
+            <option>충청남도</option>
+            <option>전라북도</option>
+            <option>전라남도</option>
+            <option>경상북도</option>
+            <option>경상남도</option>
+          </optgroup>
         </select>
       </div>
       <div class="fg" id="mDateWrap">
@@ -572,25 +597,24 @@
       <label class="fl">튀김 구성</label>
       <div class="topping-grid">
         <div class="to" onclick="toggleTop(this)">새우</div>
-        <div class="to" onclick="toggleTop(this)">아나고</div>
-        <div class="to" onclick="toggleTop(this)">장어</div>
         <div class="to" onclick="toggleTop(this)">단호박</div>
         <div class="to" onclick="toggleTop(this)">꽈리고추</div>
         <div class="to" onclick="toggleTop(this)">온천계란</div>
         <div class="to" onclick="toggleTop(this)">가지</div>
         <div class="to" onclick="toggleTop(this)">연근</div>
         <div class="to" onclick="toggleTop(this)">고구마</div>
+        <div class="to" onclick="toggleTop(this)">아나고</div>
         <div class="to" onclick="toggleTop(this)">오징어</div>
       </div>
     </div>
     <div class="frow">
       <div class="fg" id="mGradeWrap">
-        <label class="fl">등급 분류</label>
+        <label class="fl">인생 등급</label>
         <select class="fi" id="mGrade">
-          <option>인생 텐동 🏆</option>
           <option>동네 맛집</option>
           <option>추천 맛집</option>
           <option>원정 맛집</option>
+          <option>인생 텐동 🏆</option>
         </select>
       </div>
       <div class="fg" id="mPriceWrap">
@@ -633,22 +657,33 @@
 <script>
 // ─── CONFIG ───────────────────────────────────────────
 const ACCOUNTS = [
-  { id: 'chaeeun', pw: '1231' },
-  { id: 'eunchae', pw: '1231' }
+  { id: 'tendong', pw: '1234' },
+  { id: 'couple', pw: 'tendong2025' }
 ];
 
 const REGION_XY = {
-  '서울': [500,220], '인천': [460,240], '경기': [480,280],
-  '대전': [460,330], '강릉': [680,180], '세종': [470,310],
-  '대구': [620,380], '울산': [650,420], '부산': [655,470],
-  '광주': [380,460], '전북': [400,380], '전남': [360,520],
-  '경북': [640,330], '경남': [610,480], '충북': [520,310],
-  '충남': [430,360], '제주': [420,900]
+  '서울특별시':    [238,140],
+  '인천광역시':    [172,148],
+  '경기도':        [222,168],
+  '강원특별자치도':[352,154],
+  '충청북도':      [298,224],
+  '충청남도':      [194,212],
+  '세종특별자치시':[256,238],
+  '대전광역시':    [252,254],
+  '전라북도':      [190,244],
+  '전라남도':      [182,300],
+  '광주광역시':    [214,294],
+  '경상북도':      [354,250],
+  '대구광역시':    [336,274],
+  '경상남도':      [294,304],
+  '울산광역시':    [382,310],
+  '부산광역시':    [362,336],
+  '제주특별자치도':[234,608],
 };
 
 // ─── STATE ───────────────────────────────────────────
 let data = JSON.parse(localStorage.getItem('tendong_v2') || '[]');
-let star = 0, crispy = '', tops = [], mapFilter = null, selId = null, currentTab = 'list', isWishMode = false, editingId = null;
+let star = 0, crispy = '', tops = [], mapFilter = null, selId = null, currentTab = 'list', isWishMode = false;
 
 function save() { localStorage.setItem('tendong_v2', JSON.stringify(data)); }
 
@@ -697,9 +732,9 @@ function renderMarkers() {
   const g = document.getElementById('markerLayer');
   g.innerHTML = '';
   data.forEach(r => {
-    const [bx,by] = REGION_XY[r.region] || [500,500];
-    const jx = ((r.id % 31) - 15) * 1.5;
-    const jy = ((r.id % 23) - 11) * 1.5;
+    const [bx,by] = REGION_XY[r.region] || REGION_XY['기타'];
+    const jx = ((r.id % 31) - 15) * 0.9;
+    const jy = ((r.id % 23) - 11) * 0.9;
     const cx = bx + jx, cy = by + jy;
 
     if (mapFilter === 'revisit' && !r.revisit) return;
@@ -714,47 +749,46 @@ function renderMarkers() {
 
     // shadow
     const sh = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
-    sh.setAttribute('cx',cx); sh.setAttribute('cy',cy+3);
-    sh.setAttribute('rx','10'); sh.setAttribute('ry','4');
-    sh.setAttribute('fill','rgba(0,0,0,0.15)');
+    sh.setAttribute('cx',cx); sh.setAttribute('cy',cy+2.5);
+    sh.setAttribute('rx','7'); sh.setAttribute('ry','3');
+    sh.setAttribute('fill','rgba(0,0,0,0.18)');
     pin.appendChild(sh);
 
     if (isWish) {
       // 위시: 점선 원 핀
       const c1 = document.createElementNS('http://www.w3.org/2000/svg','circle');
-      c1.setAttribute('cx',cx); c1.setAttribute('cy',cy-15);
-      c1.setAttribute('r','11');
+      c1.setAttribute('cx',cx); c1.setAttribute('cy',cy-12);
+      c1.setAttribute('r','9');
       c1.setAttribute('fill','rgba(75,116,192,0.12)');
       c1.setAttribute('stroke',color);
-      c1.setAttribute('stroke-width','1.8');
+      c1.setAttribute('stroke-width','1.5');
       c1.setAttribute('stroke-dasharray','3,2');
       pin.appendChild(c1);
       const t = document.createElementNS('http://www.w3.org/2000/svg','text');
-      t.setAttribute('x',cx); t.setAttribute('y',cy-11);
-      t.setAttribute('text-anchor','middle'); t.setAttribute('font-size','12');
+      t.setAttribute('x',cx); t.setAttribute('y',cy-9);
+      t.setAttribute('text-anchor','middle'); t.setAttribute('font-size','10');
       t.textContent = '♡';
       pin.appendChild(t);
     } else {
       // 방문: 일반 핀
       const path = document.createElementNS('http://www.w3.org/2000/svg','path');
-      path.setAttribute('d',`M${cx},${cy} C${cx+12},${cy-12} ${cx+12},${cy-32} ${cx},${cy-32} C${cx-12},${cy-32} ${cx-12},${cy-12} ${cx},${cy} Z`);
+      path.setAttribute('d',`M${cx},${cy} C${cx+10},${cy-10} ${cx+10},${cy-26} ${cx},${cy-26} C${cx-10},${cy-26} ${cx-10},${cy-10} ${cx},${cy} Z`);
       path.setAttribute('fill', color);
-      if (isSel) { path.setAttribute('stroke','white'); path.setAttribute('stroke-width','2.5'); }
+      if (isSel) { path.setAttribute('stroke','white'); path.setAttribute('stroke-width','2'); }
       pin.appendChild(path);
       const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
-      dot.setAttribute('cx',cx); dot.setAttribute('cy',cy-22);
-      dot.setAttribute('r','5'); dot.setAttribute('fill','rgba(255,255,255,0.8)');
+      dot.setAttribute('cx',cx); dot.setAttribute('cy',cy-18);
+      dot.setAttribute('r','4'); dot.setAttribute('fill','rgba(255,255,255,0.7)');
       pin.appendChild(dot);
     }
 
     // name label
     const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
-    lbl.setAttribute('x',cx); lbl.setAttribute('y',cy+16);
-    lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('font-size','10');
+    lbl.setAttribute('x',cx); lbl.setAttribute('y',cy+12);
+    lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('font-size','8');
     lbl.setAttribute('font-family',"'Noto Sans KR', sans-serif");
-    lbl.setAttribute('fill','rgba(60,40,20,0.7)');
-    lbl.setAttribute('font-weight','500');
-    const nm = r.name.length > 8 ? r.name.slice(0,8)+'…' : r.name;
+    lbl.setAttribute('fill','rgba(60,40,20,0.65)');
+    const nm = r.name.length > 7 ? r.name.slice(0,7)+'…' : r.name;
     lbl.textContent = nm;
     pin.appendChild(lbl);
 
@@ -875,9 +909,8 @@ function showDetail(id) {
     ${(r.toppings||[]).length?`<div class="rc-tags">${r.toppings.map(t=>`<span class="rtag">${t}</span>`).join('')}</div>`:''}
     ${r.memo?`<div class="dmemo">"${r.memo}"</div>`:''}
     <div class="d-actions">
-      <button class="d-edit-btn" onclick="editEntry(${r.id})">수정하기</button>
       <button class="d-del-btn" onclick="deleteEntry(${r.id})">삭제하기</button>
-      ${r.wishlist?`<button class="d-edit-btn" onclick="markVisited(${r.id})">방문 완료로 이동</button>`:''}
+      ${r.wishlist?`<button class="d-del-btn" style="color:var(--accent);border-color:rgba(184,92,26,0.3);" onclick="markVisited(${r.id})">방문 완료로 이동</button>`:''}
     </div>
   `;
   drawer.classList.add('open');
@@ -898,55 +931,6 @@ function deleteEntry(id) {
   save(); closeDrawer(); render();
 }
 
-function editEntry(id) {
-  const r = data.find(x=>x.id===id);
-  if (!r) return;
-  editingId = id;
-  isWishMode = r.wishlist;
-  star = r.rating || 0;
-  crispy = r.crispy || '';
-  tops = r.toppings ? [...r.toppings] : [];
-
-  document.getElementById('mName').value = r.name;
-  document.getElementById('mRegion').value = r.region;
-  document.getElementById('mDate').value = r.date || new Date().toISOString().split('T')[0];
-  document.getElementById('mMemo').value = r.memo || '';
-  document.getElementById('mRevisit').checked = r.revisit || false;
-
-  // 별점 표시
-  document.querySelectorAll('.si').forEach((s,i)=>s.classList.toggle('on',i<star));
-
-  // 바삭함 표시
-  if (crispy) {
-    const crispyMap = {'눅눅':0,'보통':1,'바삭':2,'극바삭':3};
-    document.querySelectorAll('.co').forEach((c,i)=>c.classList.toggle('on',i===crispyMap[crispy]));
-  } else {
-    document.querySelectorAll('.co').forEach(c=>c.classList.remove('on'));
-  }
-
-  // 튀김 구성 표시
-  document.querySelectorAll('.to').forEach(t => {
-    t.classList.toggle('on', tops.includes(t.textContent));
-  });
-
-  // 등급, 가격, 대기 표시
-  if (!isWishMode) {
-    document.getElementById('mGrade').value = r.grade || '동네 맛집';
-    document.getElementById('mPrice').value = r.price || '1~1.5만원';
-    document.getElementById('mWait').value = r.waiting || '없음';
-  }
-
-  document.getElementById('modalTitle').textContent = isWishMode ? '♡ 위시리스트 수정' : '🍤 텐동집 수정하기';
-
-  // 위시모드에서는 별점/바삭함/등급 숨김
-  ['mRatingWrap','mCrispyWrap','mGradeWrap','mPriceWrap','mWaitWrap','mRevisitWrap'].forEach(id => {
-    document.getElementById(id).style.display = isWishMode ? 'none' : '';
-  });
-
-  document.getElementById('modalBg').classList.add('open');
-  setTimeout(()=>document.getElementById('mName').focus(), 100);
-}
-
 function markVisited(id) {
   const r = data.find(x=>x.id===id);
   if (!r) return;
@@ -954,7 +938,9 @@ function markVisited(id) {
   r.date = new Date().toISOString().split('T')[0];
   r.rating = 0;
   save(); closeDrawer(); render();
-  editEntry(id);
+  openModal(false); // 바로 방문 기록 작성
+  document.getElementById('mName').value = r.name;
+  document.getElementById('mRegion').value = r.region;
 }
 
 // ─── FILTERS ─────────────────────────────────────────
@@ -990,7 +976,6 @@ function switchTab(tab, el) {
 
 // ─── MODAL ───────────────────────────────────────────
 function openModal(wishMode) {
-  editingId = null;
   isWishMode = wishMode;
   star = 0; crispy = ''; tops = [];
   document.getElementById('mName').value = '';
@@ -1013,10 +998,7 @@ function openModal(wishMode) {
   setTimeout(()=>document.getElementById('mName').focus(), 100);
 }
 
-function closeModal() {
-  editingId = null;
-  document.getElementById('modalBg').classList.remove('open');
-}
+function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
 
 function setStar(n) {
   star = n;
@@ -1038,55 +1020,26 @@ function saveEntry() {
   if (!name) { alert('가게 이름을 입력해주세요.'); return; }
   if (!isWishMode && !star) { alert('별점을 선택해주세요.'); return; }
 
-  if (editingId) {
-    // 수정
-    const r = data.find(x=>x.id===editingId);
-    if (!r) return;
-    r.name = name;
-    r.region = document.getElementById('mRegion').value;
-    r.date = document.getElementById('mDate').value;
-    r.memo = document.getElementById('mMemo').value.trim();
-    if (!isWishMode) {
-      r.rating = star;
-      r.crispy = crispy || '보통';
-      r.toppings = [...tops];
-      r.price = document.getElementById('mPrice').value;
-      r.grade = document.getElementById('mGrade').value;
-      r.waiting = document.getElementById('mWait').value;
-      r.revisit = document.getElementById('mRevisit').checked;
-    } else {
-      r.toppings = [...tops];
-    }
-  } else {
-    // 신규
-    const entry = {
-      id: Date.now(),
-      name,
-      region: document.getElementById('mRegion').value,
-      date: document.getElementById('mDate').value,
-      rating: isWishMode ? 0 : star,
-      crispy: isWishMode ? '' : crispy || '보통',
-      toppings: [...tops],
-      price: isWishMode ? '' : document.getElementById('mPrice').value,
-      grade: isWishMode ? '' : document.getElementById('mGrade').value,
-      waiting: isWishMode ? '' : document.getElementById('mWait').value,
-      memo: document.getElementById('mMemo').value.trim(),
-      revisit: isWishMode ? false : document.getElementById('mRevisit').checked,
-      wishlist: isWishMode
-    };
-    data.push(entry);
-  }
-
+  const entry = {
+    id: Date.now(),
+    name,
+    region: document.getElementById('mRegion').value,
+    date: document.getElementById('mDate').value,
+    rating: isWishMode ? 0 : star,
+    crispy: isWishMode ? '' : crispy || '보통',
+    toppings: [...tops],
+    price: isWishMode ? '' : document.getElementById('mPrice').value,
+    grade: isWishMode ? '' : document.getElementById('mGrade').value,
+    waiting: isWishMode ? '' : document.getElementById('mWait').value,
+    memo: document.getElementById('mMemo').value.trim(),
+    revisit: isWishMode ? false : document.getElementById('mRevisit').checked,
+    wishlist: isWishMode
+  };
+  data.push(entry);
   save();
   closeModal();
   render();
-  if (editingId) {
-    showDetail(editingId);
-  } else {
-    // 신규 저장 후
-    const lastId = data[data.length-1].id;
-    showDetail(lastId);
-  }
+  showDetail(entry.id);
 }
 
 // ─── RANDOM ──────────────────────────────────────────
@@ -1102,8 +1055,10 @@ function pickRandom() {
 // 샘플 데이터 (첫 실행 시)
 if (data.length === 0) {
   data = [
-    {id:1, name:'저스트텐동', region:'세종', date:'2024-11-15', rating:5, crispy:'극바삭', toppings:['새우','단호박','온천계란','꽈리고추'], price:'1~1.5만원', grade:'동네 맛집', waiting:'없음', memo:'비빔밥느낌', revisit:true, wishlist:false},
-    {id:2, name:'니쿠텐 신세계대전점', region:'대전', date:'2024-12-03', rating:4, crispy:'바삭', toppings:['새우','아나고','단호박'], price:'1.5~2만원', grade:'원정 맛집', waiting:'없음', memo:'너무 짰음', revisit:true, wishlist:false}
+    {id:1, name:'텐동 에도마에', region:'서울', date:'2024-11-15', rating:5, crispy:'극바삭', toppings:['새우','단호박','온천계란','꽈리고추'], price:'1.5~2만원', grade:'인생 텐동 🏆', waiting:'30분~1시간', memo:'인생 텐동 등극. 새우가 어마어마했음', revisit:true, wishlist:false},
+    {id:2, name:'하코다테 텐동', region:'부산', date:'2024-12-03', rating:4, crispy:'바삭', toppings:['새우','아나고','단호박'], price:'1~1.5만원', grade:'원정 맛집', waiting:'없음', memo:'부산 여행 중 발견한 숨은 맛집', revisit:true, wishlist:false},
+    {id:3, name:'긴자 텐동 강남', region:'서울', date:'2025-01-20', rating:4, crispy:'바삭', toppings:['새우','가지','연근'], price:'2만원 이상', grade:'추천 맛집', waiting:'30분 이하', memo:'깔끔하고 모던한 분위기', revisit:false, wishlist:false},
+    {id:4, name:'제주 텐동 골목집', region:'제주', date:'', rating:0, crispy:'', toppings:[], price:'', grade:'', waiting:'', memo:'제주 여행 때 꼭 가보기', revisit:false, wishlist:true}
   ];
   save();
 }
