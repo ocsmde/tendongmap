@@ -2,7 +2,7 @@
 <html lang="ko">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=1.0, user-scalable=no">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>🍤 텐동여지도</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link href="https://fonts.googleapis.com/css2?family=Noto+Serif+KR:wght@400;600;700&family=Noto+Sans+KR:wght@300;400;500&family=Shippori+Mincho:wght@400;600&display=swap" rel="stylesheet">
@@ -31,7 +31,6 @@
     background-image:
       repeating-linear-gradient(0deg, transparent, transparent 27px, rgba(44,26,14,0.04) 28px),
       url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='200' height='200'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3CfeColorMatrix type='saturate' values='0'/%3E%3C/filter%3E%3Crect width='200' height='200' filter='url(%23n)' opacity='0.03'/%3E%3C/svg%3E");
-    -webkit-font-smoothing: antialiased;
   }
 
   /* ─── LOGIN ─── */
@@ -40,145 +39,400 @@
     background: var(--paper-dark);
     display: flex; align-items: center; justify-content: center;
     flex-direction: column; gap: 24px;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='60' height='60'%3E%3Ccircle cx='30' cy='30' r='1' fill='rgba(44,26,14,0.08)'/%3E%3C/svg%3E");
   }
   .login-box {
     background: var(--paper);
     border: 1px solid var(--border);
     border-radius: 4px;
-    padding: 40px 30px;
+    padding: 48px 56px;
     text-align: center;
-    box-shadow: 0 8px 40px var(--shadow);
+    box-shadow: 0 8px 40px var(--shadow), inset 0 1px 0 rgba(255,255,255,0.6);
     max-width: 380px; width: 90%;
     position: relative;
   }
-  .login-title { font-family: 'Noto Serif KR', serif; font-size: 22px; font-weight: 700; margin-bottom: 4px; }
+  .login-box::before {
+    content: '';
+    position: absolute; top: -1px; left: 20px; right: 20px; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold), var(--accent));
+    border-radius: 0 0 2px 2px;
+  }
+  .login-stamp {
+    font-family: 'Shippori Mincho', serif;
+    font-size: 48px; margin-bottom: 8px;
+  }
+  .login-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 22px; font-weight: 700; color: var(--ink);
+    letter-spacing: -0.5px; margin-bottom: 4px;
+  }
   .login-sub { font-size: 12px; color: var(--ink-light); margin-bottom: 32px; }
   .login-input {
-    width: 100%; padding: 12px; border: 1px solid var(--border);
-    border-radius: 3px; margin-bottom: 10px; outline: none; background: rgba(255,255,255,0.5);
+    width: 100%;
+    padding: 10px 14px;
+    border: 1px solid var(--border);
+    border-radius: 3px;
+    background: rgba(255,255,255,0.5);
+    font-family: 'Noto Sans KR', sans-serif;
+    font-size: 14px; color: var(--ink);
+    outline: none; margin-bottom: 10px;
+    transition: border-color 0.2s;
   }
+  .login-input:focus { border-color: var(--accent); }
   .login-btn {
-    width: 100%; padding: 12px; background: var(--accent); color: white;
-    border: none; border-radius: 3px; font-weight: 600; cursor: pointer;
+    width: 100%; padding: 11px;
+    background: var(--accent); color: white;
+    border: none; border-radius: 3px;
+    font-family: 'Noto Serif KR', serif;
+    font-size: 14px; font-weight: 600; cursor: pointer;
+    transition: background 0.15s;
+    margin-top: 4px;
   }
+  .login-btn:hover { background: var(--accent-light); }
+  .login-error {
+    font-size: 12px; color: var(--red-pin);
+    margin-top: 8px; min-height: 16px;
+  }
+  .login-hint { font-size: 11px; color: var(--ink-light); margin-top: 16px; opacity: 0.6; }
 
-  /* ─── APP LAYOUT ─── */
-  #app { display: none; flex-direction: column; height: 100vh; overflow: hidden; }
+  /* ─── APP ─── */
+  #app { display: none; flex-direction: column; min-height: 100vh; }
 
   /* ─── HEADER ─── */
   .header {
-    background: var(--ink); color: var(--paper);
-    padding: 0 15px; display: flex; align-items: center; justify-content: space-between;
-    height: 60px; flex-shrink: 0; z-index: 10;
+    background: var(--ink);
+    color: var(--paper);
+    padding: 0 24px;
+    display: flex; align-items: center; justify-content: space-between;
+    height: 56px; flex-shrink: 0;
+    position: sticky; top: 0; z-index: 10;
   }
-  .header-logo { font-family: 'Noto Serif KR', serif; font-size: 16px; font-weight: 700; }
-  .header-stats { display: flex; gap: 10px; }
+  .header-logo {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 18px; font-weight: 700; letter-spacing: -0.3px;
+    display: flex; align-items: center; gap: 8px;
+  }
+  .header-logo span { font-size: 11px; font-weight: 300; opacity: 0.5; margin-left: 6px; letter-spacing: 0; }
+  .header-stats { display: flex; gap: 24px; }
   .hstat { text-align: center; }
-  .hstat-num { font-size: 14px; font-weight: 700; color: var(--accent-light); }
-  .hstat-label { font-size: 9px; opacity: 0.6; }
+  .hstat-num { font-size: 17px; font-weight: 700; color: var(--accent-light); line-height: 1; }
+  .hstat-label { font-size: 10px; opacity: 0.5; margin-top: 2px; }
+  .logout-btn {
+    background: none; border: 1px solid rgba(255,255,255,0.2);
+    color: rgba(255,255,255,0.6); font-size: 11px;
+    padding: 5px 12px; border-radius: 2px; cursor: pointer;
+    font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s;
+  }
+  .logout-btn:hover { border-color: rgba(255,255,255,0.5); color: white; }
 
-  /* ─── MAIN ─── */
-  .main { display: flex; flex: 1; overflow: hidden; }
+  /* ─── MAIN LAYOUT ─── */
+  .main { display: flex; flex: 1; height: calc(100vh - 56px); overflow: hidden; }
 
   /* ─── SIDEBAR ─── */
   .sidebar {
-    width: 320px; flex-shrink: 0; background: var(--paper);
-    border-right: 1px solid var(--border); display: flex; flex-direction: column;
+    width: 320px; flex-shrink: 0;
+    background: var(--paper);
+    border-right: 1px solid var(--border);
+    display: flex; flex-direction: column;
+    overflow: hidden;
   }
-  .sidebar-tabs { display: flex; background: var(--paper-dark); }
-  .stab { flex: 1; padding: 12px; text-align: center; font-size: 12px; cursor: pointer; font-family: 'Noto Serif KR', serif; color: var(--ink-light); }
-  .stab.active { background: var(--paper); color: var(--accent); border-bottom: 2px solid var(--accent); }
-  .sidebar-body { flex: 1; overflow-y: auto; padding: 15px; }
-
-  /* ─── MAP ─── */
-  .map-wrap { flex: 1; position: relative; background: #E8DFD0; overflow: hidden; }
-  #mapSvg { width: 100%; height: 100%; }
-
-  .map-controls { position: absolute; top: 15px; right: 15px; display: flex; flex-direction: column; gap: 8px; }
-  .mc-btn {
-    background: var(--paper); border: 1px solid var(--border); border-radius: 3px;
-    padding: 8px 12px; font-size: 11px; cursor: pointer; box-shadow: 0 2px 8px var(--shadow);
-    color: var(--ink);
+  .sidebar-tabs {
+    display: flex; border-bottom: 1px solid var(--border);
+    background: var(--paper-dark);
   }
-
-  /* ─── DRAWER ─── */
-  .drawer {
-    position: absolute; bottom: 0; left: 0; right: 0;
-    background: var(--paper); border-top: 1px solid var(--border);
-    padding: 20px; transform: translateY(100%); transition: transform 0.3s cubic-bezier(0.32,0,0.24,1);
-    z-index: 20; max-height: 70%; overflow-y: auto; box-shadow: 0 -4px 24px var(--shadow);
+  .stab {
+    flex: 1; padding: 11px 8px; text-align: center;
+    font-size: 12px; cursor: pointer; color: var(--ink-light);
+    border-bottom: 2px solid transparent;
+    transition: all 0.15s; font-family: 'Noto Serif KR', serif;
   }
-  .drawer.open { transform: translateY(0); }
+  .stab.active { color: var(--accent); border-bottom-color: var(--accent); background: var(--paper); }
+
+  .sidebar-body { flex: 1; overflow-y: auto; padding: 14px; }
+  .sidebar-body::-webkit-scrollbar { width: 3px; }
+  .sidebar-body::-webkit-scrollbar-thumb { background: var(--border); }
+
+  .add-btn {
+    width: 100%; padding: 10px; margin-bottom: 12px;
+    background: var(--ink); color: var(--paper);
+    border: none; border-radius: 3px; cursor: pointer;
+    font-family: 'Noto Serif KR', serif; font-size: 13px;
+    display: flex; align-items: center; justify-content: center; gap: 6px;
+    transition: background 0.15s; letter-spacing: 0.5px;
+  }
+  .add-btn:hover { background: var(--ink-light); }
+
+  .filter-row { display: flex; gap: 6px; margin-bottom: 12px; flex-wrap: wrap; }
+  .chip {
+    padding: 4px 10px; border-radius: 20px; font-size: 11px;
+    border: 1px solid var(--border); cursor: pointer;
+    color: var(--ink-light); background: transparent;
+    transition: all 0.15s; font-family: 'Noto Sans KR', sans-serif;
+  }
+  .chip.on { background: var(--accent); color: white; border-color: var(--accent); }
 
   /* ─── CARD ─── */
   .rcard {
-    background: white; border: 1px solid var(--border); border-radius: 3px;
-    padding: 12px; margin-bottom: 10px; cursor: pointer;
+    background: white;
+    border: 1px solid var(--border);
+    border-radius: 3px; padding: 12px 14px; margin-bottom: 8px;
+    cursor: pointer; transition: all 0.15s;
+    position: relative; overflow: hidden;
   }
-  .rc-name { font-family: 'Noto Serif KR', serif; font-size: 14px; font-weight: 700; }
+  .rcard::before {
+    content: ''; position: absolute; left: 0; top: 0; bottom: 0; width: 3px;
+    background: var(--accent); opacity: 0;
+    transition: opacity 0.15s;
+  }
+  .rcard:hover::before, .rcard.sel::before { opacity: 1; }
+  .rcard:hover { border-color: var(--accent); transform: translateX(2px); }
+  .rcard.sel { border-color: var(--accent); transform: translateX(2px); }
+  .rc-top { display: flex; justify-content: space-between; align-items: flex-start; margin-bottom: 4px; }
+  .rc-name { font-family: 'Noto Serif KR', serif; font-size: 14px; font-weight: 600; }
+  .rc-stars { color: var(--gold); font-size: 11px; }
+  .rc-loc { font-size: 11px; color: var(--ink-light); margin-bottom: 5px; }
+  .rc-date { font-size: 10px; color: #aaa; }
+  .rc-tags { display: flex; gap: 4px; flex-wrap: wrap; margin-top: 7px; }
+  .rtag {
+    padding: 2px 7px; border-radius: 2px; font-size: 10px;
+    background: rgba(184,92,26,0.08); color: var(--accent);
+    border: 1px solid rgba(184,92,26,0.15);
+  }
+  .rtag.g { background: rgba(74,124,63,0.08); color: var(--green); border-color: rgba(74,124,63,0.2); }
+  .rtag.wl { background: rgba(75,116,192,0.08); color: #4B74C0; border-color: rgba(75,116,192,0.2); }
+
+  .empty {
+    text-align: center; padding: 48px 20px;
+    color: var(--ink-light); font-size: 13px; line-height: 2;
+    font-family: 'Noto Serif KR', serif;
+  }
+  .empty-icon { font-size: 36px; margin-bottom: 12px; opacity: 0.4; }
+
+  /* ─── MAP ─── */
+  .map-wrap {
+    flex: 1; position: relative; overflow: hidden;
+    background: #E8DFD0;
+    background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='40' height='40'%3E%3Ccircle cx='20' cy='20' r='0.8' fill='rgba(44,26,14,0.1)'/%3E%3C/svg%3E");
+  }
+  #mapSvg { width: 100%; height: 100%; }
+
+  .map-controls {
+    position: absolute; top: 14px; right: 14px;
+    display: flex; flex-direction: column; gap: 7px;
+  }
+  .mc-btn {
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 3px; padding: 7px 13px; font-size: 11px;
+    cursor: pointer; display: flex; align-items: center; gap: 5px;
+    color: var(--ink); font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s; box-shadow: 0 2px 8px var(--shadow);
+    white-space: nowrap;
+  }
+  .mc-btn:hover { border-color: var(--accent); color: var(--accent); }
+  .mc-btn.on { background: var(--accent); color: white; border-color: var(--accent); }
+
+  .map-legend {
+    position: absolute; bottom: 16px; left: 14px;
+    background: var(--paper); border: 1px solid var(--border);
+    border-radius: 3px; padding: 10px 14px;
+    box-shadow: 0 2px 8px var(--shadow);
+  }
+  .ml-title { font-size: 10px; font-weight: 600; color: var(--ink-light); margin-bottom: 6px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .ml-item { display: flex; align-items: center; gap: 7px; font-size: 11px; color: var(--ink-light); margin-bottom: 4px; }
+  .ml-dot { width: 10px; height: 10px; border-radius: 50%; flex-shrink: 0; }
+
+  /* ─── DETAIL DRAWER ─── */
+  .drawer {
+    position: absolute; bottom: 0; left: 0; right: 0;
+    background: var(--paper);
+    border-top: 1px solid var(--border);
+    border-radius: 6px 6px 0 0;
+    padding: 20px 24px 24px;
+    transform: translateY(100%);
+    transition: transform 0.28s cubic-bezier(0.32,0,0.24,1);
+    box-shadow: 0 -4px 24px var(--shadow);
+    max-height: 65%;
+    overflow-y: auto;
+  }
+  .drawer.open { transform: translateY(0); }
+  .drawer-close {
+    position: absolute; top: 12px; right: 16px;
+    background: none; border: none; font-size: 18px;
+    cursor: pointer; color: var(--ink-light);
+  }
+  .dname { font-family: 'Noto Serif KR', serif; font-size: 20px; font-weight: 700; margin-bottom: 4px; }
+  .dstars { color: var(--gold); font-size: 15px; margin-bottom: 10px; }
+  .drow { display: flex; gap: 16px; flex-wrap: wrap; margin: 10px 0; }
+  .ditem strong { display: block; font-size: 13px; font-weight: 600; }
+  .ditem span { font-size: 11px; color: var(--ink-light); }
+  .dmemo {
+    font-size: 13px; color: var(--ink-light); font-style: italic;
+    margin-top: 10px; padding-top: 10px;
+    border-top: 1px dashed var(--border);
+    font-family: 'Noto Serif KR', serif; line-height: 1.7;
+  }
+  .d-actions { display: flex; gap: 8px; margin-top: 14px; }
+  .d-del-btn {
+    padding: 7px 14px; border: 1px solid rgba(192,57,43,0.3);
+    border-radius: 3px; background: none; color: var(--red-pin);
+    font-size: 12px; cursor: pointer; font-family: 'Noto Sans KR', sans-serif;
+    transition: all 0.15s;
+  }
+  .d-del-btn:hover { background: rgba(192,57,43,0.08); }
+
+  /* ─── STATS ─── */
+  .stat-section { margin-bottom: 20px; }
+  .stat-label { font-size: 11px; font-weight: 600; color: var(--ink-light); margin-bottom: 8px; letter-spacing: 0.5px; text-transform: uppercase; }
+  .stat-row { display: flex; align-items: center; gap: 8px; margin-bottom: 7px; }
+  .sr-name { font-size: 12px; width: 60px; flex-shrink: 0; color: var(--ink); }
+  .sr-bar-bg { flex: 1; height: 5px; background: var(--paper-dark); border-radius: 3px; overflow: hidden; }
+  .sr-bar { height: 100%; background: var(--accent); border-radius: 3px; transition: width 0.5s; }
+  .sr-num { font-size: 11px; color: var(--ink-light); width: 24px; text-align: right; }
+  .random-btn {
+    width: 100%; padding: 11px; margin-bottom: 16px;
+    background: var(--paper-dark); color: var(--ink);
+    border: 1px dashed var(--border); border-radius: 3px;
+    cursor: pointer; font-family: 'Noto Serif KR', serif; font-size: 13px;
+    transition: all 0.15s;
+  }
+  .random-btn:hover { border-color: var(--accent); color: var(--accent); }
 
   /* ─── MODAL ─── */
   .modal-bg {
     position: fixed; inset: 0; background: rgba(44,26,14,0.5);
-    display: none; align-items: center; justify-content: center; z-index: 100; padding: 15px;
+    display: none; align-items: center; justify-content: center;
+    z-index: 50; padding: 20px;
   }
   .modal-bg.open { display: flex; }
-  .modal { background: var(--paper); width: 100%; max-width: 450px; padding: 25px; border-radius: 5px; max-height: 90vh; overflow-y: auto; position: relative; }
-  .fi { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid var(--border); border-radius: 3px; font-family: inherit; }
-  .fg { margin-bottom: 15px; }
-  .fl { font-size: 11px; font-weight: 600; color: var(--ink-light); text-transform: uppercase; }
+  .modal {
+    background: var(--paper);
+    border: 1px solid var(--border);
+    border-radius: 4px; padding: 28px 32px;
+    width: 100%; max-width: 500px;
+    max-height: 92vh; overflow-y: auto;
+    box-shadow: 0 16px 60px rgba(44,26,14,0.25);
+    position: relative;
+  }
+  .modal::before {
+    content: ''; position: absolute;
+    top: -1px; left: 16px; right: 16px; height: 3px;
+    background: linear-gradient(90deg, var(--accent), var(--gold));
+    border-radius: 0 0 2px 2px;
+  }
+  .modal-title {
+    font-family: 'Noto Serif KR', serif;
+    font-size: 17px; font-weight: 700; margin-bottom: 22px;
+    color: var(--ink);
+  }
+  .fg { margin-bottom: 14px; }
+  .fl {
+    display: block; font-size: 11px; font-weight: 600;
+    color: var(--ink-light); margin-bottom: 5px;
+    letter-spacing: 0.4px; text-transform: uppercase;
+  }
+  .fi {
+    width: 100%; padding: 9px 11px;
+    border: 1px solid var(--border); border-radius: 3px;
+    background: rgba(255,255,255,0.7);
+    font-family: 'Noto Sans KR', sans-serif; font-size: 13px;
+    color: var(--ink); outline: none; transition: border-color 0.15s;
+  }
+  .fi:focus { border-color: var(--accent); }
+  .frow { display: grid; grid-template-columns: 1fr 1fr; gap: 10px; }
+  .stars-input { display: flex; gap: 3px; }
+  .si { font-size: 26px; cursor: pointer; color: #ddd; transition: color 0.1s; }
+  .si.on { color: var(--gold); }
+  .crispy-row { display: flex; gap: 6px; flex-wrap: wrap; }
+  .co {
+    padding: 5px 11px; border-radius: 2px; font-size: 12px;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: all 0.15s; color: var(--ink-light);
+  }
+  .co.on { background: var(--accent); color: white; border-color: var(--accent); }
+  .topping-grid { display: flex; flex-wrap: wrap; gap: 6px; }
+  .to {
+    padding: 4px 10px; border-radius: 20px; font-size: 12px;
+    border: 1px solid var(--border); cursor: pointer;
+    transition: all 0.15s; color: var(--ink-light);
+  }
+  .to.on { background: rgba(184,92,26,0.1); color: var(--accent); border-color: var(--accent); }
+  .toggle-row { display: flex; align-items: center; gap: 8px; }
+  .toggle-row input[type=checkbox] { width: 15px; height: 15px; accent-color: var(--accent); }
+  .toggle-row label { font-size: 13px; cursor: pointer; }
+  .modal-actions { display: flex; gap: 8px; margin-top: 20px; }
+  .btn-cancel {
+    flex: 1; padding: 10px; border: 1px solid var(--border);
+    border-radius: 3px; background: none; cursor: pointer;
+    font-size: 13px; color: var(--ink-light);
+    font-family: 'Noto Sans KR', sans-serif;
+  }
+  .btn-save {
+    flex: 2; padding: 10px;
+    background: var(--ink); color: var(--paper);
+    border: none; border-radius: 3px; cursor: pointer;
+    font-family: 'Noto Serif KR', serif; font-size: 13px; font-weight: 600;
+    transition: background 0.15s; letter-spacing: 0.3px;
+  }
+  .btn-save:hover { background: var(--ink-light); }
 
-  /* 📱 MOBILE OPTIMIZATION 📱 */
-  @media (max-width: 768px) {
-    #app { overflow-y: auto; height: auto; }
-    .main { flex-direction: column; height: auto; overflow: visible; }
-    .sidebar { width: 100%; height: auto; order: 2; border-right: none; }
-    .map-wrap { height: 60vh; order: 1; flex: none; position: sticky; top: 0; z-index: 5; }
-    .header-stats { gap: 8px; }
-    .hstat-label { font-size: 8px; }
-    .map-controls { top: auto; bottom: 15px; right: 10px; }
-    .drawer { position: fixed; z-index: 30; }
+  /* ─── WISHLIST mode indicator ─── */
+  .wl-badge {
+    display: inline-block; padding: 2px 8px; border-radius: 2px;
+    font-size: 10px; background: rgba(75,116,192,0.1); color: #4B74C0;
+    border: 1px solid rgba(75,116,192,0.25); margin-left: 6px;
   }
 </style>
 </head>
 <body>
 
-<!-- 로그인 화면 -->
+<!-- ═══════════════════ LOGIN ═══════════════════ -->
 <div id="loginScreen">
   <div class="login-box">
-    <div class="login-title">🍤 텐동여지도</div>
+    <img src="IMG_2217.jpeg" alt="텐동여지도 로고" style="width:160px; margin-bottom:4px;">
+    <div class="login-title">텐동여지도</div>
     <div class="login-sub">우리 둘만의 전국 텐동 정복 기록</div>
-    <input class="login-input" id="loginId" type="text" placeholder="아이디" value="tendong">
-    <input class="login-input" id="loginPw" type="password" placeholder="비밀번호" value="1234">
+    <input class="login-input" id="loginId" type="text" placeholder="아이디" autocomplete="off">
+    <input class="login-input" id="loginPw" type="password" placeholder="비밀번호" autocomplete="off">
     <button class="login-btn" onclick="tryLogin()">입장하기</button>
-    <div id="loginErr" style="color:red; font-size:12px; margin-top:10px;"></div>
+    <div class="login-error" id="loginErr"></div>
+    <div class="login-hint">💡 기본 계정: tendong / 1234</div>
   </div>
 </div>
 
-<!-- 메인 앱 -->
+<!-- ═══════════════════ APP ═══════════════════ -->
 <div id="app">
+
+  <!-- HEADER -->
   <header class="header">
-    <div class="header-logo">🍤 텐동여지도</div>
+    <div class="header-logo">
+      <img src="IMG_2217.jpeg" alt="텐동여지도" style="height:36px; object-fit:contain; filter:brightness(0) invert(1);">
+      <span>전국 정복기</span>
+    </div>
     <div class="header-stats">
       <div class="hstat"><div class="hstat-num" id="hTotal">0</div><div class="hstat-label">방문</div></div>
-      <div class="hstat"><div class="hstat-num" id="hWishlist">0</div><div class="hstat-label">위시</div></div>
+      <div class="hstat"><div class="hstat-num" id="hAvg">—</div><div class="hstat-label">평균 평점</div></div>
+      <div class="hstat"><div class="hstat-num" id="hRegion">0</div><div class="hstat-label">지역</div></div>
+      <div class="hstat"><div class="hstat-num" id="hWishlist">0</div><div class="hstat-label">위시리스트</div></div>
     </div>
-    <button onclick="logout()" style="background:none; border:1px solid rgba(255,255,255,0.2); color:#ccc; font-size:10px; padding:4px 8px; border-radius:2px;">로그아웃</button>
+    <button class="logout-btn" onclick="logout()">로그아웃</button>
   </header>
 
   <div class="main">
-    <!-- 사이드바 (모바일에서는 아래로) -->
+
+    <!-- SIDEBAR -->
     <aside class="sidebar">
       <div class="sidebar-tabs">
-        <div class="stab active" id="tabList" onclick="switchTab('list')">맛집 목록</div>
-        <div class="stab" id="tabWish" onclick="switchTab('wish')">위시리스트</div>
+        <div class="stab active" onclick="switchTab('list',this)">맛집 목록</div>
+        <div class="stab" onclick="switchTab('wish',this)">위시리스트</div>
+        <div class="stab" onclick="switchTab('stats',this)">통계</div>
       </div>
       <div class="sidebar-body" id="sidebarBody"></div>
     </aside>
 
-    <!-- 지도 (모바일에서는 위로) -->
-    <div class="map-wrap">
-      <svg id="mapSvg" viewBox="0 0 500 660">
+    <!-- MAP -->
+    <div class="map-wrap" id="mapWrap">
+      <svg id="mapSvg" viewBox="0 0 500 660" xmlns="http://www.w3.org/2000/svg">
         <defs>
           <radialGradient id="seaG" cx="40%" cy="50%">
             <stop offset="0%" stop-color="#C4D9E8"/>
@@ -186,190 +440,630 @@
           </radialGradient>
         </defs>
         <rect width="500" height="660" fill="url(#seaG)"/>
-        
-        <!-- 지도 Path 데이터 복구 -->
-        <g stroke="#A89060" stroke-width="0.9">
-          <path d="M172,110 L182,102 L196,97 L212,95 L228,94 L244,97 L258,104 L268,114 L274,126 L272,140 L264,150 L272,160 L276,172 L272,184 L260,194 L244,200 L228,204 L212,202 L196,194 L182,182 L172,168 L166,152 L168,136Z" fill="#D6C99E"/> <!-- 경기 -->
-          <path d="M220,130 L232,124 L244,123 L256,128 L260,140 L256,152 L244,157 L232,155 L220,148Z" fill="#C2B080"/> <!-- 서울 -->
-          <path d="M162,136 L174,130 L184,132 L190,144 L186,156 L176,162 L164,158 L158,146Z" fill="#CCBE90"/> <!-- 인천 -->
-          <path d="M272,122 L288,112 L306,106 L326,102 L348,102 L370,108 L390,118 L406,132 L414,150 L412,168 L402,184 L388,196 L370,204 L350,208 L330,204 L312,198 L296,196 L280,190 L272,178 L274,164 L264,152 L272,140Z" fill="#D2C69A"/> <!-- 강원 -->
-          <path d="M244,200 L260,196 L276,194 L294,196 L312,200 L326,208 L332,220 L328,234 L318,246 L302,252 L284,250 L268,242 L254,230 L244,216Z" fill="#DAD09E"/> <!-- 충북 -->
-          <path d="M164,160 L180,162 L196,166 L212,170 L226,178 L238,188 L244,200 L242,216 L234,228 L220,238 L202,242 L184,238 L166,228 L152,214 L148,198 L154,182Z" fill="#D8CE9A"/> <!-- 충남 -->
-          <path d="M248,230 L260,226 L270,230 L272,242 L262,250 L250,250 L242,244Z" fill="#E2D6A2"/> <!-- 세종 -->
-          <path d="M242,244 L254,240 L266,244 L268,256 L258,264 L246,264 L238,256Z" fill="#CEBC8C"/> <!-- 대전 -->
-          <path d="M150,216 L168,210 L186,210 L204,214 L220,220 L234,230 L238,244 L232,258 L220,268 L204,274 L186,274 L168,266 L152,252 L140,236Z" fill="#DACCA0"/> <!-- 전북 -->
-          <path d="M140,252 L156,250 L174,256 L190,264 L206,272 L222,272 L236,266 L246,272 L244,288 L234,304 L218,318 L198,328 L176,332 L154,326 L134,312 L120,294 L120,274Z" fill="#D8CC9C"/> <!-- 전남 -->
-          <path d="M202,286 L214,280 L228,282 L234,294 L228,308 L214,312 L202,308 L196,296Z" fill="#C6B888"/> <!-- 광주 -->
-          <path d="M312,200 L330,206 L350,208 L368,216 L384,228 L396,244 L400,262 L392,280 L378,294 L360,300 L340,298 L322,288 L308,274 L298,258 L296,240 L302,222Z" fill="#D4C898"/> <!-- 경북 -->
-          <path d="M322,264 L336,256 L352,258 L360,270 L354,286 L340,292 L324,286 L316,274Z" fill="#C6B886"/> <!-- 대구 -->
-          <path d="M248,272 L268,264 L288,258 L308,256 L324,262 L340,272 L352,286 L352,304 L342,320 L324,332 L304,340 L282,342 L260,336 L242,322 L236,306 L238,288Z" fill="#DACE9E"/> <!-- 경남 -->
-          <path d="M368,296 L384,288 L400,294 L406,310 L398,326 L382,332 L366,326 L358,312Z" fill="#CEBC8E"/> <!-- 울산 -->
-          <path d="M342,322 L360,314 L378,316 L390,328 L390,344 L376,356 L358,360 L342,352 L334,338Z" fill="#C4B484"/> <!-- 부산 -->
-          <path d="M158,598 L178,590 L202,584 L228,581 L254,582 L278,588 L298,596 L308,610 L300,624 L278,632 L252,636 L224,634 L198,626 L176,614 L160,602Z" fill="#D4C8A4"/> <!-- 제주 -->
+        <!-- 독도 -->
+        <circle cx="456" cy="130" r="4" fill="#D4C8A8" stroke="#A89060" stroke-width="0.8"/>
+        <text x="456" y="142" text-anchor="middle" font-size="7" fill="rgba(80,60,30,0.55)" font-family="'Noto Sans KR',sans-serif">독도</text>
+
+        <!-- 경기도 (서울·인천을 감싸는 넓은 도) -->
+        <path d="M172,110 L182,102 L196,97 L212,95 L228,94 L244,97 L258,104 L268,114 L274,126 L272,140 L264,150 L272,160 L276,172 L272,184 L260,194 L244,200 L228,204 L212,202 L196,194 L182,182 L172,168 L166,152 L168,136Z" fill="#D6C99E" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 서울특별시 -->
+        <path d="M220,130 L232,124 L244,123 L256,128 L260,140 L256,152 L244,157 L232,155 L220,148Z" fill="#C2B080" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 인천광역시 (서해 방향) -->
+        <path d="M162,136 L174,130 L184,132 L190,144 L186,156 L176,162 L164,158 L158,146Z" fill="#CCBE90" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 강원특별자치도 -->
+        <path d="M272,122 L288,112 L306,106 L326,102 L348,102 L370,108 L390,118 L406,132 L414,150 L412,168 L402,184 L388,196 L370,204 L350,208 L330,204 L312,198 L296,196 L280,190 L272,178 L274,164 L264,152 L272,140Z" fill="#D2C69A" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 충청북도 -->
+        <path d="M244,200 L260,196 L276,194 L294,196 L312,200 L326,208 L332,220 L328,234 L318,246 L302,252 L284,250 L268,242 L254,230 L244,216Z" fill="#DAD09E" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 충청남도 -->
+        <path d="M164,160 L180,162 L196,166 L212,170 L226,178 L238,188 L244,200 L242,216 L234,228 L220,238 L202,242 L184,238 L166,228 L152,214 L148,198 L154,182Z" fill="#D8CE9A" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 세종특별자치시 -->
+        <path d="M248,230 L260,226 L270,230 L272,242 L262,250 L250,250 L242,244Z" fill="#E2D6A2" stroke="#7A5C30" stroke-width="0.9"/>
+        <!-- 대전광역시 -->
+        <path d="M242,244 L254,240 L266,244 L268,256 L258,264 L246,264 L238,256Z" fill="#CEBC8C" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 전라북도 -->
+        <path d="M150,216 L168,210 L186,210 L204,214 L220,220 L234,230 L238,244 L232,258 L220,268 L204,274 L186,274 L168,266 L152,252 L140,236Z" fill="#DACCA0" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 전라남도 -->
+        <path d="M140,252 L156,250 L174,256 L190,264 L206,272 L222,272 L236,266 L246,272 L244,288 L234,304 L218,318 L198,328 L176,332 L154,326 L134,312 L120,294 L120,274Z" fill="#D8CC9C" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 광주광역시 -->
+        <path d="M202,286 L214,280 L228,282 L234,294 L228,308 L214,312 L202,308 L196,296Z" fill="#C6B888" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 경상북도 -->
+        <path d="M312,200 L330,206 L350,208 L368,216 L384,228 L396,244 L400,262 L392,280 L378,294 L360,300 L340,298 L322,288 L308,274 L298,258 L296,240 L302,222Z" fill="#D4C898" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 대구광역시 -->
+        <path d="M322,264 L336,256 L352,258 L360,270 L354,286 L340,292 L324,286 L316,274Z" fill="#C6B886" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 경상남도 -->
+        <path d="M248,272 L268,264 L288,258 L308,256 L324,262 L340,272 L352,286 L352,304 L342,320 L324,332 L304,340 L282,342 L260,336 L242,322 L236,306 L238,288Z" fill="#DACE9E" stroke="#A89060" stroke-width="0.9"/>
+        <!-- 울산광역시 -->
+        <path d="M368,296 L384,288 L400,294 L406,310 L398,326 L382,332 L366,326 L358,312Z" fill="#CEBC8E" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 부산광역시 -->
+        <path d="M342,322 L360,314 L378,316 L390,328 L390,344 L376,356 L358,360 L342,352 L334,338Z" fill="#C4B484" stroke="#7A5C30" stroke-width="1"/>
+        <!-- 제주특별자치도 -->
+        <path d="M158,598 L178,590 L202,584 L228,581 L254,582 L278,588 L298,596 L308,610 L300,624 L278,632 L252,636 L224,634 L198,626 L176,614 L160,602Z" fill="#D4C8A4" stroke="#B0A070" stroke-width="1"/>
+
+        <!-- 시도명 라벨 -->
+        <g font-family="'Noto Sans KR',sans-serif" fill="rgba(55,38,15,0.72)">
+          <text x="238" y="143" text-anchor="middle" font-size="7.5" font-weight="500">서울</text>
+          <text x="173" y="150" text-anchor="middle" font-size="7">인천</text>
+          <text x="220" y="173" text-anchor="middle" font-size="7.5">경기</text>
+          <text x="352" y="158" text-anchor="middle" font-size="7.5">강원</text>
+          <text x="298" y="228" text-anchor="middle" font-size="7.5">충북</text>
+          <text x="196" y="216" text-anchor="middle" font-size="7.5">충남</text>
+          <text x="256" y="242" text-anchor="middle" font-size="6.5">세종</text>
+          <text x="252" y="257" text-anchor="middle" font-size="6.5">대전</text>
+          <text x="190" y="248" text-anchor="middle" font-size="7.5">전북</text>
+          <text x="184" y="304" text-anchor="middle" font-size="7.5">전남</text>
+          <text x="214" y="298" text-anchor="middle" font-size="6.5">광주</text>
+          <text x="356" y="254" text-anchor="middle" font-size="7.5">경북</text>
+          <text x="338" y="277" text-anchor="middle" font-size="6.5">대구</text>
+          <text x="296" y="308" text-anchor="middle" font-size="7.5">경남</text>
+          <text x="384" y="314" text-anchor="middle" font-size="6.5">울산</text>
+          <text x="364" y="340" text-anchor="middle" font-size="6.5">부산</text>
+          <text x="234" y="608" text-anchor="middle" font-size="7.5">제주</text>
         </g>
+
+        <!-- 마커 레이어 -->
         <g id="markerLayer"></g>
+        <text x="486" y="18" text-anchor="end" font-size="8" fill="rgba(100,80,50,0.2)" font-family="'Noto Serif KR',serif" font-style="italic">텐동여지도</text>
       </svg>
-      
+
+      <!-- 지도 컨트롤 -->
       <div class="map-controls">
         <button class="mc-btn" onclick="openModal(false)">＋ 방문 추가</button>
-        <button class="mc-btn" onclick="openModal(true)">♡ 위시 추가</button>
+        <button class="mc-btn" onclick="openModal(true)">♡ 위시리스트 추가</button>
+        <button class="mc-btn" id="btnOnlyRevisit" onclick="toggleMapFilter('revisit')">💚 재방문만</button>
       </div>
-      
+
+      <!-- 범례 -->
+      <div class="map-legend">
+        <div class="ml-title">범례</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#C0392B"></div> 별점 4.5+</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#E07A35"></div> 별점 3.5–4.4</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#8FA8C8"></div> 별점 ~3.4</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#52C41A"></div> 재방문 예정</div>
+        <div class="ml-item"><div class="ml-dot" style="background:#4B74C0; border:2px dashed #4B74C0; box-sizing:border-box"></div> 위시리스트</div>
+      </div>
+
+      <!-- 상세 드로어 -->
       <div class="drawer" id="drawer">
-        <button onclick="closeDrawer()" style="float:right; background:none; border:none; font-size:20px;">✕</button>
+        <button class="drawer-close" onclick="closeDrawer()">✕</button>
         <div id="drawerContent"></div>
       </div>
     </div>
+
   </div>
 </div>
 
-<!-- 기록 추가 모달 -->
+<!-- ═══════════════════ MODAL ═══════════════════ -->
 <div class="modal-bg" id="modalBg">
   <div class="modal">
-    <h3 id="modalTitle" style="margin-bottom:20px; font-family:'Noto Serif KR'">🍤 텐동집 기록</h3>
-    <div class="fg"><label class="fl">가게 이름</label><input class="fi" id="mName" type="text" placeholder="가게 이름을 입력하세요"></div>
+    <div class="modal-title" id="modalTitle">🍤 텐동집 추가하기</div>
     <div class="fg">
-      <label class="fl">지역 선택</label>
-      <select class="fi" id="mRegion">
-        <option>서울특별시</option><option>경기도</option><option>인천광역시</option><option>강원특별자치도</option>
-        <option>충청북도</option><option>충청남도</option><option>세종특별자치시</option><option>대전광역시</option>
-        <option>전라북도</option><option>전라남도</option><option>광주광역시</option><option>경상북도</option>
-        <option>대구광역시</option><option>경상남도</option><option>울산광역시</option><option>부산광역시</option><option>제주특별자치도</option>
+      <label class="fl">가게 이름</label>
+      <input class="fi" id="mName" type="text" placeholder="예) 긴자텐동 강남점">
+    </div>
+    <div class="frow">
+      <div class="fg">
+        <label class="fl">지역</label>
+        <select class="fi" id="mRegion">
+          <optgroup label="특별/광역시">
+            <option>서울특별시</option>
+            <option>부산광역시</option>
+            <option>대구광역시</option>
+            <option>인천광역시</option>
+            <option>광주광역시</option>
+            <option>대전광역시</option>
+            <option>울산광역시</option>
+          </optgroup>
+          <optgroup label="특별자치시/도">
+            <option>세종특별자치시</option>
+            <option>제주특별자치도</option>
+          </optgroup>
+          <optgroup label="도">
+            <option>경기도</option>
+            <option>강원특별자치도</option>
+            <option>충청북도</option>
+            <option>충청남도</option>
+            <option>전라북도</option>
+            <option>전라남도</option>
+            <option>경상북도</option>
+            <option>경상남도</option>
+          </optgroup>
+        </select>
+      </div>
+      <div class="fg" id="mDateWrap">
+        <label class="fl">방문 날짜</label>
+        <input class="fi" id="mDate" type="date">
+      </div>
+    </div>
+    <div class="fg" id="mRatingWrap">
+      <label class="fl">별점</label>
+      <div class="stars-input" id="starsInput">
+        <span class="si" onclick="setStar(1)">★</span>
+        <span class="si" onclick="setStar(2)">★</span>
+        <span class="si" onclick="setStar(3)">★</span>
+        <span class="si" onclick="setStar(4)">★</span>
+        <span class="si" onclick="setStar(5)">★</span>
+      </div>
+    </div>
+    <div class="fg" id="mCrispyWrap">
+      <label class="fl">바삭함 지수</label>
+      <div class="crispy-row">
+        <div class="co" onclick="setCrispy('눅눅',this)">😞 눅눅</div>
+        <div class="co" onclick="setCrispy('보통',this)">😐 보통</div>
+        <div class="co" onclick="setCrispy('바삭',this)">😊 바삭</div>
+        <div class="co" onclick="setCrispy('극바삭',this)">🤩 극바삭</div>
+      </div>
+    </div>
+    <div class="fg" id="mToppingWrap">
+      <label class="fl">튀김 구성</label>
+      <div class="topping-grid">
+        <div class="to" onclick="toggleTop(this)">새우</div>
+        <div class="to" onclick="toggleTop(this)">단호박</div>
+        <div class="to" onclick="toggleTop(this)">꽈리고추</div>
+        <div class="to" onclick="toggleTop(this)">온천계란</div>
+        <div class="to" onclick="toggleTop(this)">가지</div>
+        <div class="to" onclick="toggleTop(this)">연근</div>
+        <div class="to" onclick="toggleTop(this)">고구마</div>
+        <div class="to" onclick="toggleTop(this)">아나고</div>
+        <div class="to" onclick="toggleTop(this)">오징어</div>
+      </div>
+    </div>
+    <div class="frow">
+      <div class="fg" id="mGradeWrap">
+        <label class="fl">인생 등급</label>
+        <select class="fi" id="mGrade">
+          <option>동네 맛집</option>
+          <option>추천 맛집</option>
+          <option>원정 맛집</option>
+          <option>인생 텐동 🏆</option>
+        </select>
+      </div>
+      <div class="fg" id="mPriceWrap">
+        <label class="fl">가격대</label>
+        <select class="fi" id="mPrice">
+          <option>1만원 이하</option>
+          <option>1~1.5만원</option>
+          <option>1.5~2만원</option>
+          <option>2만원 이상</option>
+        </select>
+      </div>
+    </div>
+    <div class="fg" id="mWaitWrap">
+      <label class="fl">웨이팅</label>
+      <select class="fi" id="mWait">
+        <option>없음</option>
+        <option>30분 이하</option>
+        <option>30분~1시간</option>
+        <option>1시간 이상</option>
+        <option>오픈런 필수</option>
       </select>
     </div>
-    <div class="fg"><label class="fl">날짜</label><input class="fi" id="mDate" type="date"></div>
-    <div class="fg"><label class="fl">한줄 메모</label><input class="fi" id="mMemo" type="text" placeholder="맛은 어땠나요?"></div>
-    <div style="display:flex; gap:10px; margin-top:20px;">
-      <button onclick="closeModal()" style="flex:1; padding:12px; border:1px solid var(--border); border-radius:3px; background:none;">취소</button>
-      <button onclick="saveEntry()" style="flex:2; padding:12px; background:var(--ink); color:white; border:none; border-radius:3px; font-weight:600;">저장하기</button>
+    <div class="fg">
+      <label class="fl">한줄 메모</label>
+      <input class="fi" id="mMemo" type="text" placeholder="예) 새우가 엄청 통통해서 감동받음">
+    </div>
+    <div class="fg" id="mRevisitWrap">
+      <div class="toggle-row">
+        <input type="checkbox" id="mRevisit">
+        <label for="mRevisit">재방문 의사 있음 💚</label>
+      </div>
+    </div>
+    <div class="modal-actions">
+      <button class="btn-cancel" onclick="closeModal()">취소</button>
+      <button class="btn-save" onclick="saveEntry()">저장하기</button>
     </div>
   </div>
 </div>
 
 <script>
-  // 좌표 설정 (마커용)
-  const REGION_XY = {
-    '서울특별시': [238,140], '인천광역시': [172,148], '경기도': [222,168], '강원특별자치도': [352,154],
-    '충청북도': [298,224], '충청남도': [194,212], '세종특별자치시': [256,238], '대전광역시': [252,254],
-    '전라북도': [190,244], '전라남도': [182,300], '광주광역시': [214,294], '경상북도': [354,250],
-    '대구광역시': [336,274], '경상남도': [294,304], '울산광역시': [382,310], '부산광역시': [362,336], '제주특별자치도': [234,608]
-  };
+// ─── CONFIG ───────────────────────────────────────────
+const ACCOUNTS = [
+  { id: 'tendong', pw: '1234' },
+  { id: 'couple', pw: 'tendong2025' }
+];
 
-  let data = JSON.parse(localStorage.getItem('tendong_data_v3') || '[]');
-  let currentTab = 'list';
+const REGION_XY = {
+  '서울특별시':    [238,140],
+  '인천광역시':    [172,148],
+  '경기도':        [222,168],
+  '강원특별자치도':[352,154],
+  '충청북도':      [298,224],
+  '충청남도':      [194,212],
+  '세종특별자치시':[256,238],
+  '대전광역시':    [252,254],
+  '전라북도':      [190,244],
+  '전라남도':      [182,300],
+  '광주광역시':    [214,294],
+  '경상북도':      [354,250],
+  '대구광역시':    [336,274],
+  '경상남도':      [294,304],
+  '울산광역시':    [382,310],
+  '부산광역시':    [362,336],
+  '제주특별자치도':[234,608],
+};
 
-  function tryLogin() {
-    const id = document.getElementById('loginId').value;
-    const pw = document.getElementById('loginPw').value;
-    if(id === 'tendong' && pw === '1234') {
-      document.getElementById('loginScreen').style.display = 'none';
-      document.getElementById('app').style.display = 'flex';
-      render();
+// ─── STATE ───────────────────────────────────────────
+let data = JSON.parse(localStorage.getItem('tendong_v2') || '[]');
+let star = 0, crispy = '', tops = [], mapFilter = null, selId = null, currentTab = 'list', isWishMode = false;
+
+function save() { localStorage.setItem('tendong_v2', JSON.stringify(data)); }
+
+// ─── AUTH ─────────────────────────────────────────────
+function tryLogin() {
+  const id = document.getElementById('loginId').value.trim();
+  const pw = document.getElementById('loginPw').value.trim();
+  const ok = ACCOUNTS.some(a => a.id === id && a.pw === pw);
+  if (ok) {
+    document.getElementById('loginScreen').style.display = 'none';
+    document.getElementById('app').style.display = 'flex';
+    render();
+  } else {
+    document.getElementById('loginErr').textContent = '아이디 또는 비밀번호가 틀렸어요.';
+  }
+}
+document.getElementById('loginPw').addEventListener('keydown', e => { if (e.key === 'Enter') tryLogin(); });
+
+function logout() {
+  document.getElementById('loginScreen').style.display = 'flex';
+  document.getElementById('app').style.display = 'none';
+  document.getElementById('loginErr').textContent = '';
+  document.getElementById('loginId').value = '';
+  document.getElementById('loginPw').value = '';
+}
+
+// ─── RENDER ──────────────────────────────────────────
+function render() {
+  updateHeader();
+  renderMarkers();
+  if (currentTab === 'list') renderList(false);
+  else if (currentTab === 'wish') renderList(true);
+  else renderStats();
+}
+
+function updateHeader() {
+  const visited = data.filter(d => !d.wishlist);
+  document.getElementById('hTotal').textContent = visited.length;
+  const avg = visited.length ? (visited.reduce((s,r)=>s+r.rating,0)/visited.length).toFixed(1) : '—';
+  document.getElementById('hAvg').textContent = avg;
+  document.getElementById('hRegion').textContent = new Set(visited.map(r=>r.region)).size;
+  document.getElementById('hWishlist').textContent = data.filter(d => d.wishlist).length;
+}
+
+function renderMarkers() {
+  const g = document.getElementById('markerLayer');
+  g.innerHTML = '';
+  data.forEach(r => {
+    const [bx,by] = REGION_XY[r.region] || REGION_XY['기타'];
+    const jx = ((r.id % 31) - 15) * 0.9;
+    const jy = ((r.id % 23) - 11) * 0.9;
+    const cx = bx + jx, cy = by + jy;
+
+    if (mapFilter === 'revisit' && !r.revisit) return;
+
+    const isWish = r.wishlist;
+    const isSel = r.id === selId;
+    let color = isWish ? '#4B74C0' : (r.revisit ? '#52C41A' : (r.rating >= 4.5 ? '#C0392B' : r.rating >= 3.5 ? '#E07A35' : '#8FA8C8'));
+
+    const pin = document.createElementNS('http://www.w3.org/2000/svg','g');
+    pin.setAttribute('cursor','pointer');
+    pin.addEventListener('click', () => showDetail(r.id));
+
+    // shadow
+    const sh = document.createElementNS('http://www.w3.org/2000/svg','ellipse');
+    sh.setAttribute('cx',cx); sh.setAttribute('cy',cy+2.5);
+    sh.setAttribute('rx','7'); sh.setAttribute('ry','3');
+    sh.setAttribute('fill','rgba(0,0,0,0.18)');
+    pin.appendChild(sh);
+
+    if (isWish) {
+      // 위시: 점선 원 핀
+      const c1 = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      c1.setAttribute('cx',cx); c1.setAttribute('cy',cy-12);
+      c1.setAttribute('r','9');
+      c1.setAttribute('fill','rgba(75,116,192,0.12)');
+      c1.setAttribute('stroke',color);
+      c1.setAttribute('stroke-width','1.5');
+      c1.setAttribute('stroke-dasharray','3,2');
+      pin.appendChild(c1);
+      const t = document.createElementNS('http://www.w3.org/2000/svg','text');
+      t.setAttribute('x',cx); t.setAttribute('y',cy-9);
+      t.setAttribute('text-anchor','middle'); t.setAttribute('font-size','10');
+      t.textContent = '♡';
+      pin.appendChild(t);
     } else {
-      document.getElementById('loginErr').innerText = '아이디 또는 비밀번호가 틀렸어요.';
+      // 방문: 일반 핀
+      const path = document.createElementNS('http://www.w3.org/2000/svg','path');
+      path.setAttribute('d',`M${cx},${cy} C${cx+10},${cy-10} ${cx+10},${cy-26} ${cx},${cy-26} C${cx-10},${cy-26} ${cx-10},${cy-10} ${cx},${cy} Z`);
+      path.setAttribute('fill', color);
+      if (isSel) { path.setAttribute('stroke','white'); path.setAttribute('stroke-width','2'); }
+      pin.appendChild(path);
+      const dot = document.createElementNS('http://www.w3.org/2000/svg','circle');
+      dot.setAttribute('cx',cx); dot.setAttribute('cy',cy-18);
+      dot.setAttribute('r','4'); dot.setAttribute('fill','rgba(255,255,255,0.7)');
+      pin.appendChild(dot);
     }
+
+    // name label
+    const lbl = document.createElementNS('http://www.w3.org/2000/svg','text');
+    lbl.setAttribute('x',cx); lbl.setAttribute('y',cy+12);
+    lbl.setAttribute('text-anchor','middle'); lbl.setAttribute('font-size','8');
+    lbl.setAttribute('font-family',"'Noto Sans KR', sans-serif");
+    lbl.setAttribute('fill','rgba(60,40,20,0.65)');
+    const nm = r.name.length > 7 ? r.name.slice(0,7)+'…' : r.name;
+    lbl.textContent = nm;
+    pin.appendChild(lbl);
+
+    g.appendChild(pin);
+  });
+}
+
+function renderList(wishMode) {
+  const body = document.getElementById('sidebarBody');
+  let list = data.filter(r => !!r.wishlist === wishMode);
+  if (!wishMode) list.sort((a,b) => b.rating - a.rating || new Date(b.date) - new Date(a.date));
+
+  let html = `<button class="add-btn" onclick="openModal(${wishMode})">${wishMode ? '♡ 가고 싶은 곳 추가' : '＋ 텐동집 추가하기'}</button>`;
+
+  if (!wishMode) {
+    html += `<div class="filter-row">
+      <div class="chip ${!mapFilter?'on':''}" onclick="setChip(null,this)">전체</div>
+      <div class="chip ${mapFilter==='revisit'?'on':''}" onclick="setChip('revisit',this)">재방문 예정</div>
+      <div class="chip ${mapFilter==='high'?'on':''}" onclick="setChip('high',this)">별점 4.5+</div>
+    </div>`;
   }
 
-  function render() {
-    const listBody = document.getElementById('sidebarBody');
-    listBody.innerHTML = '';
-    const markerLayer = document.getElementById('markerLayer');
-    markerLayer.innerHTML = '';
-    
-    const filtered = data.filter(item => currentTab === 'wish' ? item.wishlist : !item.wishlist);
-    
-    filtered.forEach(item => {
-      // 리스트 렌더링
-      const card = document.createElement('div');
-      card.className = 'rcard';
-      card.innerHTML = `<div class="rc-name">${item.name}</div><div style="font-size:11px; color:#666; margin-top:4px;">${item.region} | ${item.date || '날짜미정'}</div>`;
-      card.onclick = () => showDetail(item);
-      listBody.appendChild(card);
-
-      // 지도 마커 렌더링
-      const xy = REGION_XY[item.region];
-      if(xy) {
-        const circle = document.createElementNS("http://www.w3.org/2000/svg", "circle");
-        circle.setAttribute("cx", xy[0]);
-        circle.setAttribute("cy", xy[1]);
-        circle.setAttribute("r", 6);
-        circle.setAttribute("fill", item.wishlist ? "#4B74C0" : "#C0392B");
-        circle.setAttribute("stroke", "white");
-        circle.setAttribute("stroke-width", "2");
-        circle.style.cursor = "pointer";
-        circle.onclick = () => showDetail(item);
-        markerLayer.appendChild(circle);
-      }
+  if (list.length === 0) {
+    html += `<div class="empty"><div class="empty-icon">${wishMode ? '♡' : '🍤'}</div>${wishMode ? '아직 위시리스트가 비어있어요.<br>가고 싶은 텐동집을 추가해보세요!' : '아직 방문 기록이 없어요.<br>첫 텐동집을 추가해보세요!'}</div>`;
+  } else {
+    let filtered = list;
+    if (mapFilter === 'high') filtered = list.filter(r => r.rating >= 4.5);
+    filtered.forEach(r => {
+      html += `<div class="rcard ${r.id===selId?'sel':''}" onclick="showDetail(${r.id})">
+        <div class="rc-top">
+          <div class="rc-name">${r.name}${r.grade==='인생 텐동 🏆'?' 🏆':''}</div>
+          ${r.wishlist ? '' : `<div class="rc-stars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)}</div>`}
+        </div>
+        <div class="rc-loc">📍 ${r.region}${r.grade && !r.wishlist ? ' · '+r.grade : ''}</div>
+        <div class="rc-date">${r.date || '날짜 미정'}${!r.wishlist && r.waiting && r.waiting!=='없음' ? ' · '+r.waiting : ''}</div>
+        <div class="rc-tags">
+          ${!r.wishlist && r.crispy ? `<span class="rtag">${r.crispy}</span>` : ''}
+          ${r.revisit ? '<span class="rtag g">재방문 💚</span>' : ''}
+          ${r.wishlist ? '<span class="rtag wl">위시리스트</span>' : ''}
+          ${(r.toppings||[]).slice(0,3).map(t=>`<span class="rtag">${t}</span>`).join('')}
+        </div>
+      </div>`;
     });
-
-    document.getElementById('hTotal').innerText = data.filter(d => !d.wishlist).length;
-    document.getElementById('hWishlist').innerText = data.filter(d => d.wishlist).length;
   }
+  body.innerHTML = html;
+}
 
-  function switchTab(tab) {
-    currentTab = tab;
-    document.getElementById('tabList').classList.toggle('active', tab === 'list');
-    document.getElementById('tabWish').classList.toggle('active', tab === 'wish');
-    render();
-  }
+function renderStats() {
+  const visited = data.filter(d => !d.wishlist);
+  const regions = {};
+  visited.forEach(r => { regions[r.region] = (regions[r.region]||0)+1; });
+  const sorted = Object.entries(regions).sort((a,b)=>b[1]-a[1]);
+  const maxR = sorted[0]?.[1]||1;
 
-  function openModal(isWish) {
-    document.getElementById('modalBg').classList.add('open');
-    document.getElementById('modalTitle').innerText = isWish ? '♡ 위시리스트 추가' : '＋ 방문 기록 추가';
-    window.currentIsWish = isWish;
-  }
+  const grades = ['인생 텐동 🏆','원정 맛집','추천 맛집','동네 맛집'];
+  const crispies = ['극바삭','바삭','보통','눅눅'];
 
-  function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
+  document.getElementById('sidebarBody').innerHTML = `
+    <button class="random-btn" onclick="pickRandom()">🎲 오늘 어디 갈까? (랜덤 추천)</button>
 
-  function saveEntry() {
-    const name = document.getElementById('mName').value;
-    if(!name) return alert('가게 이름을 입력해주세요!');
-    
-    const newEntry = {
-      id: Date.now(),
-      name: name,
-      region: document.getElementById('mRegion').value,
-      date: document.getElementById('mDate').value,
-      memo: document.getElementById('mMemo').value,
-      wishlist: window.currentIsWish
-    };
-    data.push(newEntry);
-    localStorage.setItem('tendong_data_v3', JSON.stringify(data));
-    closeModal();
-    render();
-    
-    // 입력창 초기화
-    document.getElementById('mName').value = '';
-    document.getElementById('mMemo').value = '';
-  }
+    <div class="stat-section">
+      <div class="stat-label">지역별 도장깨기</div>
+      ${sorted.map(([reg,cnt]) => `
+        <div class="stat-row">
+          <div class="sr-name">${reg}</div>
+          <div class="sr-bar-bg"><div class="sr-bar" style="width:${Math.round(cnt/maxR*100)}%"></div></div>
+          <div class="sr-num">${cnt}</div>
+        </div>`).join('')}
+      ${sorted.length===0?'<div style="font-size:12px;color:#aaa;">아직 기록 없음</div>':''}
+    </div>
 
-  function showDetail(item) {
-    const drawer = document.getElementById('drawer');
-    document.getElementById('drawerContent').innerHTML = `
-      <div style="padding-bottom:10px; border-bottom:1px solid #eee; margin-bottom:15px;">
-        <span style="font-size:12px; color:var(--accent); font-weight:600;">${item.wishlist ? 'WISH LIST' : 'VISITED'}</span>
-        <h2 style="font-family:'Noto Serif KR'; margin-top:5px;">${item.name}</h2>
-      </div>
-      <p style="font-size:13px; color:#666; margin-bottom:10px;">📍 ${item.region} (${item.date || '날짜 미정'})</p>
-      <div style="background:rgba(44,26,14,0.05); padding:15px; border-radius:4px; font-family:'Noto Serif KR'; line-height:1.6;">
-        "${item.memo || '메모가 없습니다.'}"
-      </div>
-      <button onclick="deleteItem(${item.id})" style="margin-top:20px; color:#C0392B; background:none; border:none; font-size:12px; cursor:pointer;">삭제하기</button>
-    `;
-    drawer.classList.add('open');
-  }
+    <div class="stat-section">
+      <div class="stat-label">인생 텐동 등급</div>
+      ${grades.map(g => {
+        const cnt = visited.filter(r=>r.grade===g).length;
+        return `<div class="stat-row">
+          <div class="sr-name" style="width:80px;font-size:11px;">${g.replace(' 🏆','')}</div>
+          <div class="sr-bar-bg"><div class="sr-bar" style="width:${visited.length?Math.round(cnt/visited.length*100):0}%"></div></div>
+          <div class="sr-num">${cnt}</div>
+        </div>`;
+      }).join('')}
+    </div>
 
-  function deleteItem(id) {
-    if(confirm('이 기록을 삭제할까요?')) {
-      data = data.filter(d => d.id !== id);
-      localStorage.setItem('tendong_data_v3', JSON.stringify(data));
-      closeDrawer();
-      render();
-    }
-  }
+    <div class="stat-section">
+      <div class="stat-label">바삭함 지수</div>
+      ${crispies.map(c => {
+        const cnt = visited.filter(r=>r.crispy===c).length;
+        return `<div class="stat-row">
+          <div class="sr-name">${c}</div>
+          <div class="sr-bar-bg"><div class="sr-bar" style="width:${visited.length?Math.round(cnt/visited.length*100):0}%"></div></div>
+          <div class="sr-num">${cnt}</div>
+        </div>`;
+      }).join('')}
+    </div>
+  `;
+}
 
-  function closeDrawer() { document.getElementById('drawer').classList.remove('open'); }
-  function logout() { location.reload(); }
+// ─── DETAIL ──────────────────────────────────────────
+function showDetail(id) {
+  selId = id;
+  const r = data.find(x=>x.id===id);
+  if (!r) return;
+  const drawer = document.getElementById('drawer');
+
+  const days = r.date ? Math.floor((Date.now()-new Date(r.date))/(1000*60*60*24)) : null;
+
+  document.getElementById('drawerContent').innerHTML = `
+    <div class="dname">${r.name}${r.grade==='인생 텐동 🏆'?' 🏆':''}</div>
+    ${!r.wishlist ? `<div class="dstars">${'★'.repeat(r.rating)}${'☆'.repeat(5-r.rating)} ${r.rating}.0점</div>` : '<div style="font-size:12px;color:#4B74C0;margin-bottom:10px;">♡ 위시리스트</div>'}
+    <div class="drow">
+      <div class="ditem"><strong>${r.region}</strong><span>지역</span></div>
+      ${r.date?`<div class="ditem"><strong>${r.date}</strong><span>방문일${days!==null?` (D+${days})`:''}</span></div>`:''}
+      ${!r.wishlist&&r.crispy?`<div class="ditem"><strong>${r.crispy}</strong><span>바삭함</span></div>`:''}
+      ${!r.wishlist&&r.price?`<div class="ditem"><strong>${r.price}</strong><span>가격대</span></div>`:''}
+      ${!r.wishlist&&r.waiting&&r.waiting!=='없음'?`<div class="ditem"><strong>${r.waiting}</strong><span>웨이팅</span></div>`:''}
+      ${r.revisit?`<div class="ditem"><strong style="color:#52C41A">재방문 예정</strong><span>💚</span></div>`:''}
+    </div>
+    ${(r.toppings||[]).length?`<div class="rc-tags">${r.toppings.map(t=>`<span class="rtag">${t}</span>`).join('')}</div>`:''}
+    ${r.memo?`<div class="dmemo">"${r.memo}"</div>`:''}
+    <div class="d-actions">
+      <button class="d-del-btn" onclick="deleteEntry(${r.id})">삭제하기</button>
+      ${r.wishlist?`<button class="d-del-btn" style="color:var(--accent);border-color:rgba(184,92,26,0.3);" onclick="markVisited(${r.id})">방문 완료로 이동</button>`:''}
+    </div>
+  `;
+  drawer.classList.add('open');
+  renderMarkers();
+  renderListCurrent();
+}
+
+function closeDrawer() {
+  document.getElementById('drawer').classList.remove('open');
+  selId = null;
+  renderMarkers();
+  renderListCurrent();
+}
+
+function deleteEntry(id) {
+  if (!confirm('정말 삭제할까요?')) return;
+  data = data.filter(r=>r.id!==id);
+  save(); closeDrawer(); render();
+}
+
+function markVisited(id) {
+  const r = data.find(x=>x.id===id);
+  if (!r) return;
+  r.wishlist = false;
+  r.date = new Date().toISOString().split('T')[0];
+  r.rating = 0;
+  save(); closeDrawer(); render();
+  openModal(false); // 바로 방문 기록 작성
+  document.getElementById('mName').value = r.name;
+  document.getElementById('mRegion').value = r.region;
+}
+
+// ─── FILTERS ─────────────────────────────────────────
+function setChip(f, el) {
+  mapFilter = f;
+  document.querySelectorAll('.chip').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+  renderMarkers();
+  renderListCurrent();
+}
+
+function toggleMapFilter(f) {
+  mapFilter = mapFilter === f ? null : f;
+  document.getElementById('btnOnlyRevisit').classList.toggle('on', mapFilter === f);
+  renderMarkers();
+  renderListCurrent();
+}
+
+function renderListCurrent() {
+  if (currentTab === 'list') renderList(false);
+  else if (currentTab === 'wish') renderList(true);
+}
+
+// ─── TAB ─────────────────────────────────────────────
+function switchTab(tab, el) {
+  currentTab = tab;
+  document.querySelectorAll('.stab').forEach(t=>t.classList.remove('active'));
+  el.classList.add('active');
+  if (tab === 'list') renderList(false);
+  else if (tab === 'wish') renderList(true);
+  else renderStats();
+}
+
+// ─── MODAL ───────────────────────────────────────────
+function openModal(wishMode) {
+  isWishMode = wishMode;
+  star = 0; crispy = ''; tops = [];
+  document.getElementById('mName').value = '';
+  document.getElementById('mDate').value = new Date().toISOString().split('T')[0];
+  document.getElementById('mMemo').value = '';
+  document.getElementById('mRevisit').checked = false;
+  document.querySelectorAll('.si').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.co').forEach(c=>c.classList.remove('on'));
+  document.querySelectorAll('.to').forEach(t=>t.classList.remove('on'));
+
+  document.getElementById('modalTitle').textContent = wishMode ? '♡ 위시리스트 추가' : '🍤 텐동집 추가하기';
+
+  // 위시모드에서는 별점/바삭함/등급 숨김
+  ['mRatingWrap','mCrispyWrap','mGradeWrap','mPriceWrap','mWaitWrap','mRevisitWrap'].forEach(id => {
+    document.getElementById(id).style.display = wishMode ? 'none' : '';
+  });
+  document.getElementById('mDateWrap').querySelector('.fl').textContent = wishMode ? '예상 방문일 (선택)' : '방문 날짜';
+
+  document.getElementById('modalBg').classList.add('open');
+  setTimeout(()=>document.getElementById('mName').focus(), 100);
+}
+
+function closeModal() { document.getElementById('modalBg').classList.remove('open'); }
+
+function setStar(n) {
+  star = n;
+  document.querySelectorAll('.si').forEach((s,i)=>s.classList.toggle('on',i<n));
+}
+function setCrispy(v, el) {
+  crispy = v;
+  document.querySelectorAll('.co').forEach(c=>c.classList.remove('on'));
+  el.classList.add('on');
+}
+function toggleTop(el) {
+  const t = el.textContent;
+  if (tops.includes(t)) { tops = tops.filter(x=>x!==t); el.classList.remove('on'); }
+  else { tops.push(t); el.classList.add('on'); }
+}
+
+function saveEntry() {
+  const name = document.getElementById('mName').value.trim();
+  if (!name) { alert('가게 이름을 입력해주세요.'); return; }
+  if (!isWishMode && !star) { alert('별점을 선택해주세요.'); return; }
+
+  const entry = {
+    id: Date.now(),
+    name,
+    region: document.getElementById('mRegion').value,
+    date: document.getElementById('mDate').value,
+    rating: isWishMode ? 0 : star,
+    crispy: isWishMode ? '' : crispy || '보통',
+    toppings: [...tops],
+    price: isWishMode ? '' : document.getElementById('mPrice').value,
+    grade: isWishMode ? '' : document.getElementById('mGrade').value,
+    waiting: isWishMode ? '' : document.getElementById('mWait').value,
+    memo: document.getElementById('mMemo').value.trim(),
+    revisit: isWishMode ? false : document.getElementById('mRevisit').checked,
+    wishlist: isWishMode
+  };
+  data.push(entry);
+  save();
+  closeModal();
+  render();
+  showDetail(entry.id);
+}
+
+// ─── RANDOM ──────────────────────────────────────────
+function pickRandom() {
+  const visited = data.filter(d=>!d.wishlist);
+  if (!visited.length) return;
+  const r = visited[Math.floor(Math.random()*visited.length)];
+  switchTab('list', document.querySelectorAll('.stab')[0]);
+  setTimeout(()=>showDetail(r.id), 50);
+}
+
+// ─── INIT ─────────────────────────────────────────────
+// 샘플 데이터 (첫 실행 시)
+if (data.length === 0) {
+  data = [
+    {id:1, name:'텐동 에도마에', region:'서울', date:'2024-11-15', rating:5, crispy:'극바삭', toppings:['새우','단호박','온천계란','꽈리고추'], price:'1.5~2만원', grade:'인생 텐동 🏆', waiting:'30분~1시간', memo:'인생 텐동 등극. 새우가 어마어마했음', revisit:true, wishlist:false},
+    {id:2, name:'하코다테 텐동', region:'부산', date:'2024-12-03', rating:4, crispy:'바삭', toppings:['새우','아나고','단호박'], price:'1~1.5만원', grade:'원정 맛집', waiting:'없음', memo:'부산 여행 중 발견한 숨은 맛집', revisit:true, wishlist:false},
+    {id:3, name:'긴자 텐동 강남', region:'서울', date:'2025-01-20', rating:4, crispy:'바삭', toppings:['새우','가지','연근'], price:'2만원 이상', grade:'추천 맛집', waiting:'30분 이하', memo:'깔끔하고 모던한 분위기', revisit:false, wishlist:false},
+    {id:4, name:'제주 텐동 골목집', region:'제주', date:'', rating:0, crispy:'', toppings:[], price:'', grade:'', waiting:'', memo:'제주 여행 때 꼭 가보기', revisit:false, wishlist:true}
+  ];
+  save();
+}
+
+render();
 </script>
 </body>
 </html>
